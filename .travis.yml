@@ -15,11 +15,11 @@ after_success:
   - docker build -t marshneel/multi-worker ./worker    
 
 #Login to docker CLI
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
 #Take images and push to docker hub
-- docker push marshneel/multi-client
-- docker push marshneel/multi-nginx
-- docker push marshneel/multi-server
-- docker push marshneel/multi-worker
+  - docker push marshneel/multi-client
+  - docker push marshneel/multi-nginx
+  - docker push marshneel/multi-server
+  - docker push marshneel/multi-worker
 
