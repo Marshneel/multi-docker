@@ -1,0 +1,25 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t marshneel/react-test -f ./client/Dockerfile.dev ./client
+  
+script:
+  - docker run -e CI=true marshneel/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t marshneel/multi-client ./client
+  - docker build -t marshneel/multi-nginx ./nginx
+  - docker build -t marshneel/multi-server ./server
+  - docker build -t marshneel/multi-worker ./worker    
+
+#Login to docker CLI
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+#Take images and push to docker hub
+- docker push marshneel/multi-client
+- docker push marshneel/multi-nginx
+- docker push marshneel/multi-server
+- docker push marshneel/multi-worker
+
